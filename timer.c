@@ -20,7 +20,7 @@ void timer_init() {
 	OCR0A = 155; //
 
 	//Set Timer Interrupt Mask Register
-	TIMSK0 |= (1<<OCIE0A)  //Set Output Compare Interrupt Enable Match A to 1
+	TIMSK0 |= (1<<OCIE0A);  //Set Output Compare Interrupt Enable Match A to 1
 
 
 }
