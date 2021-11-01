@@ -1,8 +1,14 @@
 #include <avr/io.h>
+#include<avr/interrupt.h>
 
 #include "timer.h"
+#include "led.h"
+
+volatile uint8_t divider = 0; 
 
 void timer_init() {
+	DDRD = 0xFF;
+
 	//Set CTC(Clear timer on compare match) in (Timer/Counter Control Register A)
 	TCCR0A |= (1<<WGM01); //Set WGM01 to 1
 	TCCR0A &= ~(1<<WGM00); //Set WGM00 to 0
@@ -22,6 +28,9 @@ void timer_init() {
 	//Set Timer Interrupt Mask Register
 	TIMSK0 |= (1<<OCIE0A);  //Set Output Compare Interrupt Enable Match A to 1
 
-
+	sei();
 }
 
+ISR(TIMER0_COMPA_vect) {
+	divider++;
+}

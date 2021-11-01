@@ -2,5 +2,6 @@
 #define _TIMER_H_
 
 void timer_init(void);
+ISR(void);
 
 #endif // _TIMER_H_
