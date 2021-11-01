@@ -9,6 +9,7 @@
 #include "timer.h"
 
 void main (void) {
+	LED_init();
 	uart_init();
 
 	while (1) {
