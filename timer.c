@@ -16,7 +16,6 @@ void timer_init() {
 	TCCR0A |= (1<<WGM00); //Set WGM00 to 1	
 	TCCR0A |= (1<<WGM01); //Set WGM01 to 1
 	
-	
 	TIMSK0 = (1<<TOIE0); //Time overflow interrupt flag to 1
 
 	OCR0A = (dutyCycle/100)*255; //Representation of time led is on
