@@ -33,7 +33,7 @@ void timer_init() {
 }
 
 ISR(TIMER0_OVF_vect) {
-	uint16_t pwmSpeed = 50; //variable for adjusting PWM-speed 
+	uint16_t pwmSpeed = 50; //variable for adjusting PWM-speed, works well at 50
 	OCR0A = (dutyCycle/100)*pwmSpeed;  //Equation for creating a fraction to regulate duty-cycle
 }
 
@@ -43,7 +43,7 @@ void fadeLedUp(void) {
 		dutyCycle = 0;		//reset
 	}
 }
-void fadeLedDown(void) {
+void fadeLedDown(void) { //same as fadeLedUp, but opposite
 	dutyCycle--;
 	if(dutyCycle == 0) {
 		dutyCycle = 200;
