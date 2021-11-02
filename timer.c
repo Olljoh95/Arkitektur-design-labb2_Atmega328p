@@ -1,10 +1,9 @@
 #include <avr/io.h>
-#include <avr/interrupt.h>
 
 #include "timer.h"
 #include "led.h"
 
-volatile uint8_t divider = 0; 
+volatile uint8_t counter = 0; 
 
 void timer_init() {
 	DDRB = 0xff;
@@ -18,9 +17,7 @@ void timer_init() {
 	OCR0A = 156; //The TOP-value for compare matching with TCNT0
 
 	//Set Timer Interrupt Mask Register
-	TIMSK0 = (1<<OCIE0A);  //Set Output Compare Interrupt Enable Match A to 1
-
-	sei(); //Set external I-bit to enable interrupts
+	//TIMSK0 = (1<<OCIE0A);  //Set Output Compare Interrupt Enable Match A to 1
 
 	//Set prescale to 1024 in register(Timer/Counter Control Register B)
 	TCCR0B &= ~(1<<WGM02); //Set WGM02 to 0
@@ -31,10 +28,13 @@ void timer_init() {
 	TCNT0 = 0; //Start timer
 }
 
-ISR(TIMER0_COMPA_vect) {
-	divider++;
+void checkCounter(void) {
 	
-	if(divider == 10) {
+	if(TCNT0 >= OCR0A) { //If statement to check if timer has passed top value
+		counter++; //Increment global variable
+		counter %= 100; //Modulus 100 for more accurate count
+	}
+	if (counter == 10) { //If global variable has reached a count of 10, turn on blue light
 		blueLight();
 	} else {
 		led_off();
