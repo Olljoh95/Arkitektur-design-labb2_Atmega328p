@@ -14,6 +14,7 @@ void main (void) {
 	timer_init();
 
 	while (1) {
-		checkCounter();
+		//fadeLedUp();
+		fadeLedDown();
 	}
 }
