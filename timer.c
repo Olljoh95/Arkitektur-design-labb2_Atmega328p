@@ -28,7 +28,7 @@ void timer_init() {
 	TCCR0B &= ~(1<<CS01); //Set CS01 to 0
 	TCCR0B |= (1<<CS00); //and CS00 to 1
 
-	//TCNT0 = 0; //Start timer
+	TCNT0 = 0; //Start timer
 }
 
 ISR(TIMER0_COMPA_vect) {
