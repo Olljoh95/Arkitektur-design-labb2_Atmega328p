@@ -4,7 +4,6 @@
 #include "serial.h"
 #include "led.h"
 
-//Sida 185 megaAVR® Data Sheet
 #define FOSC 16000000                        //Clock speed
 #define BAUDRATE 38400                      //Baudrate
 #define BAUD_PRESCALE FOSC/16/BAUDRATE -1  //calculation for presacling

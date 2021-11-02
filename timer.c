@@ -29,7 +29,6 @@ void timer_init() {
 }
 
 void checkCounter(void) {
-	
 	if(TCNT0 >= OCR0A) { //If statement to check if timer has passed top value
 		counter++; //Increment global variable
 		counter %= 100; //Modulus 100 for more accurate count
