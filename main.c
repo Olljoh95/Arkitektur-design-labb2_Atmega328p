@@ -15,6 +15,7 @@ void main (void) {
 
 	while (1) {
 		//fadeLedUp();
-		fadeLedDown();
+		//fadeLedDown();
+		pwmLoop();
 	}
 }

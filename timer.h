@@ -2,7 +2,8 @@
 #define _TIMER_H_
 
 void timer_init(void);
-ISR(TIMER0_OVF_vect);
+//ISR(TIMER0_OVF_vect);
+void pwmLoop(void);
 void fadeLedUp(void);
 void fadeLedDown(void);
 

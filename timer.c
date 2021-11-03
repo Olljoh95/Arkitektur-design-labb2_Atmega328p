@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 #include "timer.h"
 #include "led.h"
@@ -16,11 +17,11 @@ void timer_init() {
 	TCCR0A |= (1<<WGM00); //Set WGM00 to 1	
 	TCCR0A |= (1<<WGM01); //Set WGM01 to 1
 	
-	TIMSK0 = (1<<TOIE0); //Time overflow interrupt flag to 1
+	//TIMSK0 = (1<<TOIE0); //Time overflow interrupt flag to 1
 
 	OCR0A = (dutyCycle/100)*255; //Representation of time led is on
 
-	sei(); //Enable external interrupts
+	//sei(); //Enable external interrupts
 
 	//Set prescale to 64 in register(Timer/Counter Control Register B)
 	TCCR0B &= ~(1<<WGM02); //Set WGM02 to 0
@@ -28,12 +29,25 @@ void timer_init() {
 	TCCR0B &= (1<<CS01); //Set CS01 to 1
 	TCCR0B |= (1<<CS00); //and CS00 to 1
 
-	TCNT0 = 0; //Start timer
+	TCNT0 = 255; //Start timer, TOP-value
 }
-
+/*
 ISR(TIMER0_OVF_vect) {
 	uint16_t pwmSpeed = 50; //variable for adjusting PWM-speed, works well at 50
 	OCR0A = (dutyCycle/100)*pwmSpeed;  //Equation for creating a fraction to regulate duty-cycle
+}
+*/
+
+void pwmLoop(void) {
+	uint16_t pwmSpeed = 255; //variable for adjusting PWM-speed, works well at 50
+
+	dutyCycle += 10;
+	_delay_ms(100);
+	OCR0A = (dutyCycle/100)*pwmSpeed;  //Equation for creating a fraction to regulate duty-cycle
+
+	if(dutyCycle == 100) {
+		dutyCycle = 0;
+	}
 }
 
 void fadeLedUp(void) {
