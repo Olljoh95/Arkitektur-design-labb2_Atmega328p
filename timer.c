@@ -5,7 +5,7 @@
 #include "timer.h"
 #include "led.h"
 
-volatile float dutyCycle = 0; 
+volatile float dutyCycle = 0; //Global variable for regulation of led on-off period
 
 void timer_init() {
 	DDRD = (1 << PORTD6); //Enable led on digital pin 6(using 220ohm resistor)
@@ -39,17 +39,14 @@ ISR(TIMER0_OVF_vect) {
 */
 
 void pwmLoop(void) {
-	uint16_t pwmSpeed = 255; //variable for adjusting PWM-speed, works well at 50
+	uint16_t pwmSpeed = 50; //variable for adjusting PWM-speed
 
-	dutyCycle += 10;
-	_delay_ms(100);
+	dutyCycle--; //The direction of led-fade, -- for fading downwards, ++ for upwards
+	_delay_ms(5); //wait a little bit
 	OCR0A = (dutyCycle/100)*pwmSpeed;  //Equation for creating a fraction to regulate duty-cycle
-
-	if(dutyCycle == 100) {
-		dutyCycle = 0;
-	}
 }
 
+/*
 void fadeLedUp(void) {
 	dutyCycle++; //Increment dutyCycle to increase led light
 	if(dutyCycle > 200) { //when dutyCycle reaches 200...
@@ -62,3 +59,4 @@ void fadeLedDown(void) { //same as fadeLedUp, but opposite
 		dutyCycle = 200;
 	}
 }
+*/
