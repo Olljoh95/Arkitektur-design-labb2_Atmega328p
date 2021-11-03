@@ -7,7 +7,7 @@
 
 volatile float dutyCycle = 0; //Global variable for regulation of led on-off period
 
-void timer_init() {
+void timer0_init() {
 	DDRD = (1 << PORTD6); //Enable led on digital pin 6(using 220ohm resistor)
 
 	//Clear OC0A on Compare match, set OC0A at bottom(non-inverting mode)
@@ -16,12 +16,9 @@ void timer_init() {
 	//Set Fast PWM in (Timer/Counter Control Register A, Mode 3)
 	TCCR0A |= (1<<WGM00); //Set WGM00 to 1	
 	TCCR0A |= (1<<WGM01); //Set WGM01 to 1
-	
-	//TIMSK0 = (1<<TOIE0); //Time overflow interrupt flag to 1
 
 	OCR0A = (dutyCycle/100)*255; //Representation of time led is on
 
-	//sei(); //Enable external interrupts
 
 	//Set prescale to 64 in register(Timer/Counter Control Register B)
 	TCCR0B &= ~(1<<WGM02); //Set WGM02 to 0
@@ -31,12 +28,6 @@ void timer_init() {
 
 	TCNT0 = 255; //Start timer, TOP-value
 }
-/*
-ISR(TIMER0_OVF_vect) {
-	uint16_t pwmSpeed = 50; //variable for adjusting PWM-speed, works well at 50
-	OCR0A = (dutyCycle/100)*pwmSpeed;  //Equation for creating a fraction to regulate duty-cycle
-}
-*/
 
 void pwmLoop(void) {
 	uint16_t pwmSpeed = 50; //variable for adjusting PWM-speed
@@ -45,18 +36,3 @@ void pwmLoop(void) {
 	_delay_ms(5); //wait a little bit
 	OCR0A = (dutyCycle/100)*pwmSpeed;  //Equation for creating a fraction to regulate duty-cycle
 }
-
-/*
-void fadeLedUp(void) {
-	dutyCycle++; //Increment dutyCycle to increase led light
-	if(dutyCycle > 200) { //when dutyCycle reaches 200...
-		dutyCycle = 0;		//reset
-	}
-}
-void fadeLedDown(void) { //same as fadeLedUp, but opposite
-	dutyCycle--;
-	if(dutyCycle == 0) {
-		dutyCycle = 200;
-	}
-}
-*/

@@ -11,11 +11,9 @@
 void main (void) {
 	LED_init();
 	uart_init();
-	timer_init();
+	timer0_init();
 
 	while (1) {
-		//fadeLedUp();
-		//fadeLedDown();
 		pwmLoop();
 	}
 }
