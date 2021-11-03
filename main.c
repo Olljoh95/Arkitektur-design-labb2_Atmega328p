@@ -9,9 +9,10 @@
 #include "timer.h"
 
 void main (void) {
-	LED_init();
+	//LED_init();
 	uart_init();
 	timer0_init();
+	timer2_init();
 
 	while (1) {
 		pwmLoop();

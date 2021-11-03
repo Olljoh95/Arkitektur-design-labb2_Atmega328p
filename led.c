@@ -16,7 +16,7 @@ void LED_init(void) {
 }
 
 void blueLight(void) {
-    //led_off();
+    led_off();
     PORTB &= ~blue;    //Set pin number 9 HIGH
 }
 
